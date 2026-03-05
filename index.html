@@ -1,6 +1,934 @@
-<html>
-  <body>
-    <h1>Hello! I am Amna Anwar</h1>
-    <p>WordPress & Moodle LMS Developer</p>
-  </body>
-</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amna Anwar — Digital Specialist</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #f8f6f2;
+    --grey: #8a8a8a;
+    --light: #efefec;
+    --mid: #d4d2ce;
+    --accent: #0a0a0a;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--white);
+    color: var(--black);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    position: fixed;
+    width: 10px; height: 10px;
+    background: var(--black);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease, opacity 0.2s;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(10,10,10,0.3);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.35s ease, width 0.3s, height 0.3s;
+    transform: translate(-50%, -50%);
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 28px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    mix-blend-mode: normal;
+    background: rgba(248,246,242,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--black);
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--grey);
+    text-decoration: none;
+    transition: color 0.25s;
+  }
+  .nav-links a:hover { color: var(--black); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 90px;
+  }
+  .hero-left {
+    padding: 80px 48px 80px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid var(--mid);
+  }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 7vw, 88px);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -1px;
+    margin-bottom: 10px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.35s forwards;
+  }
+  .hero-name em {
+    font-style: italic;
+    font-weight: 300;
+  }
+  .hero-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(16px, 2vw, 22px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--grey);
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.5s forwards;
+  }
+  .hero-desc {
+    font-size: 14px;
+    line-height: 1.85;
+    color: #555;
+    max-width: 380px;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.65s forwards;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.8s forwards;
+  }
+  .btn-primary {
+    background: var(--black);
+    color: var(--white);
+    padding: 14px 32px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.25s, transform 0.2s;
+  }
+  .btn-primary:hover { background: #333; transform: translateY(-1px); }
+  .btn-outline {
+    color: var(--black);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-bottom: 1px solid var(--black);
+    padding-bottom: 2px;
+    transition: color 0.25s, border-color 0.25s;
+  }
+  .btn-outline:hover { color: var(--grey); border-color: var(--grey); }
+
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 80px 48px;
+    opacity: 0;
+    animation: fadeIn 1.2s ease 0.9s forwards;
+  }
+  .hero-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--mid);
+    border: 1px solid var(--mid);
+    margin-bottom: 48px;
+  }
+  .stat {
+    background: var(--white);
+    padding: 28px 24px;
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--grey);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .hero-services-list {
+    list-style: none;
+  }
+  .hero-services-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--light);
+    font-size: 13px;
+    color: var(--grey);
+    letter-spacing: 0.5px;
+  }
+  .hero-services-list li span { font-family: 'DM Mono', monospace; font-size: 10px; }
+
+  /* SECTION COMMON */
+  section { padding: 120px 48px; }
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 64px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--mid);
+  }
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--grey);
+    letter-spacing: 2px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 300;
+    line-height: 1.1;
+  }
+  .section-title em { font-style: italic; }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .about-text p {
+    font-size: 15px;
+    line-height: 1.9;
+    color: #444;
+    margin-bottom: 20px;
+  }
+  .about-text p strong { color: var(--black); font-weight: 500; }
+  .about-skills { margin-top: 32px; }
+  .skill-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--light);
+  }
+  .skill-name { font-size: 13px; color: var(--grey); }
+  .skill-bar-wrap { width: 120px; height: 1px; background: var(--mid); position: relative; }
+  .skill-bar { height: 100%; background: var(--black); transition: width 1s ease; }
+  .about-aside {
+    padding: 40px;
+    background: var(--black);
+    color: var(--white);
+  }
+  .aside-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  .aside-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.5;
+    color: #e0ddd8;
+    margin-bottom: 32px;
+  }
+  .aside-list { list-style: none; }
+  .aside-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid #222;
+    font-size: 12px;
+    color: #888;
+    display: flex;
+    gap: 12px;
+  }
+  .aside-list li::before { content: '→'; color: #444; }
+
+  /* SERVICES */
+  .services-bg { background: var(--black); color: var(--white); }
+  .services-bg .section-title { color: var(--white); }
+  .services-bg .section-num { color: #444; }
+  .services-bg .section-header { border-bottom-color: #222; }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: #1a1a1a;
+    border: 1px solid #1a1a1a;
+  }
+  .service-card {
+    background: var(--black);
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .service-card:hover { background: #111; }
+  .service-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #333, transparent);
+    transform: scaleX(0);
+    transition: transform 0.4s;
+  }
+  .service-card:hover::after { transform: scaleX(1); }
+  .service-icon {
+    font-size: 28px;
+    margin-bottom: 24px;
+    display: block;
+  }
+  .service-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: #333;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+  .service-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+  .service-desc {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.75;
+    margin-bottom: 28px;
+  }
+  .service-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #444;
+    border: 1px solid #222;
+    padding: 4px 10px;
+  }
+
+  /* PORTFOLIO */
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .portfolio-card {
+    position: relative;
+    overflow: hidden;
+    background: var(--light);
+    aspect-ratio: 4/3;
+    cursor: none;
+  }
+  .portfolio-card-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 24px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.35s;
+  }
+  .portfolio-card:hover .portfolio-card-inner { opacity: 1; }
+  .portfolio-card-bg {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    transition: transform 0.5s ease;
+  }
+  .portfolio-card:hover .portfolio-card-bg { transform: scale(1.05); }
+  .portfolio-card:nth-child(1) .portfolio-card-bg { background: #e8e4dc; }
+  .portfolio-card:nth-child(2) .portfolio-card-bg { background: #dce4e8; }
+  .portfolio-card:nth-child(3) .portfolio-card-bg { background: #e4dce8; }
+  .portfolio-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: white;
+    font-weight: 400;
+  }
+  .portfolio-card-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .portfolio-note {
+    margin-top: 32px;
+    padding: 24px 28px;
+    border: 1px dashed var(--mid);
+    font-size: 13px;
+    color: var(--grey);
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  /* CONTACT */
+  .contact-bg { background: var(--light); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .contact-left p {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.85;
+    margin-bottom: 40px;
+  }
+  .contact-links { display: flex; flex-direction: column; gap: 16px; }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 24px;
+    background: var(--white);
+    text-decoration: none;
+    color: var(--black);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid transparent;
+  }
+  .contact-link:hover {
+    transform: translateX(4px);
+    border-color: var(--mid);
+    box-shadow: 4px 4px 0 var(--mid);
+  }
+  .contact-link-icon { font-size: 18px; }
+  .contact-link-text { font-size: 13px; font-weight: 500; }
+  .contact-link-sub { font-size: 11px; color: var(--grey); margin-top: 2px; }
+  .contact-form { display: flex; flex-direction: column; gap: 0; }
+  .form-field {
+    padding: 18px 0;
+    border-bottom: 1px solid var(--mid);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  .form-field label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--grey);
+    font-family: 'DM Mono', monospace;
+  }
+  .form-field input, .form-field textarea {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    color: var(--black);
+    font-weight: 300;
+    resize: none;
+  }
+  .form-field input::placeholder, .form-field textarea::placeholder { color: var(--mid); }
+  .form-submit {
+    margin-top: 32px;
+    background: var(--black);
+    color: var(--white);
+    border: none;
+    padding: 16px 40px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: none;
+    transition: background 0.25s, transform 0.2s;
+    align-self: flex-start;
+  }
+  .form-submit:hover { background: #333; transform: translateY(-1px); }
+
+  /* FOOTER */
+  footer {
+    padding: 40px 48px;
+    border-top: 1px solid var(--mid);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--grey);
+    letter-spacing: 1.5px;
+  }
+  .footer-scroll {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--grey);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: none;
+    background: none;
+    border: none;
+  }
+  .footer-scroll:hover { color: var(--black); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 48px 24px; border-right: none; border-bottom: 1px solid var(--mid); }
+    .hero-right { padding: 48px 24px; }
+    section { padding: 80px 24px; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+    .services-grid, .portfolio-grid { grid-template-columns: 1fr; }
+    footer { padding: 28px 24px; flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Amna Anwar</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Digital Specialist · Multan, Pakistan</p>
+    <h1 class="hero-name">Amna<br><em>Anwar</em></h1>
+    <p class="hero-tagline">WordPress · Moodle · SEO · Digital Marketing</p>
+    <p class="hero-desc">I help businesses and educators build powerful digital platforms — from custom WordPress websites and Moodle eLearning systems to SEO strategies that drive real, measurable growth.</p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn-primary">Work With Me</a>
+      <a href="services.html" class="btn-outline">View Services</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">4+</div>
+        <div class="stat-label">Services</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Dedicated</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Learning</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">1</div>
+        <div class="stat-label">Goal: Your Growth</div>
+      </div>
+    </div>
+    <ul class="hero-services-list">
+      <li>WordPress Development <span>01</span></li>
+      <li>Moodle LMS Setup <span>02</span></li>
+      <li>SEO Optimization <span>03</span></li>
+      <li>Digital Marketing <span>04</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-num">01 — About</div>
+      <h2 class="section-title">Who I <em>Am</em></h2>
+    </div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>I'm <strong>Amna Anwar</strong>, a digital specialist based in Multan, Pakistan, focused on building complete online solutions for businesses and educators.</p>
+      <p>My work sits at the intersection of <strong>web development, eLearning technology, and digital marketing</strong> — meaning I can take a project from a blank screen to a fully optimized, traffic-generating platform.</p>
+      <p>I believe in clean, structured work that solves real problems. Whether it's a Moodle LMS for 500 students or an SEO strategy for a local business, I focus on results that last.</p>
+      <div class="about-skills">
+        <div class="skill-row">
+          <span class="skill-name">WordPress & Elementor</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:90%"></div></div>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">Moodle LMS</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">SEO Optimization</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:80%"></div></div>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">Digital Marketing</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:75%"></div></div>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">HTML / CSS / MySQL</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:70%"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="about-aside reveal">
+      <div class="aside-label">My Approach</div>
+      <p class="aside-quote">"I don't just build websites. I build digital systems that grow with you."</p>
+      <ul class="aside-list">
+        <li>Clean, structured code and setups</li>
+        <li>User-friendly eLearning systems</li>
+        <li>SEO from day one, not as an afterthought</li>
+        <li>Honest communication, reliable delivery</li>
+        <li>Continuously learning and improving</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="services-bg">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-num">02 — Services</div>
+      <h2 class="section-title">What I <em>Do</em></h2>
+    </div>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <span class="service-icon">⚡</span>
+      <div class="service-num">01</div>
+      <h3 class="service-name">WordPress<br>Development</h3>
+      <p class="service-desc">Custom WordPress websites built with Elementor — fast, responsive, and designed to convert visitors into clients. From landing pages to full business sites.</p>
+      <div class="service-tags">
+        <span class="tag">Elementor</span>
+        <span class="tag">WooCommerce</span>
+        <span class="tag">Custom Themes</span>
+        <span class="tag">Speed Optimization</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🎓</span>
+      <div class="service-num">02</div>
+      <h3 class="service-name">Moodle LMS<br>Development</h3>
+      <p class="service-desc">Complete Moodle eLearning platforms — installation, configuration, course setup, user management, and custom theming for schools, trainers, and companies.</p>
+      <div class="service-tags">
+        <span class="tag">Installation</span>
+        <span class="tag">Course Design</span>
+        <span class="tag">User Management</span>
+        <span class="tag">Custom Theme</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">📈</span>
+      <div class="service-num">03</div>
+      <h3 class="service-name">SEO<br>Optimization</h3>
+      <p class="service-desc">On-page SEO, keyword research, technical audits, and content strategy to help your website rank higher on Google and attract the right audience organically.</p>
+      <div class="service-tags">
+        <span class="tag">On-Page SEO</span>
+        <span class="tag">Keyword Research</span>
+        <span class="tag">Technical SEO</span>
+        <span class="tag">SEO Audit</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">📣</span>
+      <div class="service-num">04</div>
+      <h3 class="service-name">Digital<br>Marketing</h3>
+      <p class="service-desc">Strategic digital marketing for businesses and educators — content strategy, social media planning, and campaign setup to build your online presence and reach.</p>
+      <div class="service-tags">
+        <span class="tag">Strategy</span>
+        <span class="tag">Content Planning</span>
+        <span class="tag">Social Media</span>
+        <span class="tag">Analytics</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-num">03 — Portfolio</div>
+      <h2 class="section-title">Selected <em>Work</em></h2>
+    </div>
+  </div>
+  <div class="portfolio-grid reveal">
+
+    <!-- ============================================
+         PROJECT 1
+         HOW TO ADD YOUR IMAGE:
+         1. Save your screenshot as:  project1.jpg
+         2. Upload project1.jpg to GitHub (same folder as index.html)
+         3. The image will appear automatically!
+         Also update: title, category, and description below
+    ============================================ -->
+    <div class="portfolio-card">
+      <div class="portfolio-card-bg" style="background:#e8e4dc;">
+        <img src="project1.jpg"
+             alt="WordPress Business Website"
+             onerror="this.style.display='none'; this.parentElement.innerHTML='🌐';"
+             style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+      </div>
+      <div class="portfolio-card-inner">
+        <div class="portfolio-card-title">Business Website</div>
+        <div class="portfolio-card-sub">WordPress · Elementor</div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         PROJECT 2
+         HOW TO ADD YOUR IMAGE:
+         1. Save your screenshot as:  project2.jpg
+         2. Upload project2.jpg to GitHub
+         3. Update the title and category below
+    ============================================ -->
+    <div class="portfolio-card">
+      <div class="portfolio-card-bg" style="background:#dce4e8;">
+        <img src="project2.jpg"
+             alt="Moodle eLearning Platform"
+             onerror="this.style.display='none'; this.parentElement.innerHTML='🎓';"
+             style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+      </div>
+      <div class="portfolio-card-inner">
+        <div class="portfolio-card-title">eLearning Platform</div>
+        <div class="portfolio-card-sub">Moodle LMS</div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         PROJECT 3
+         HOW TO ADD YOUR IMAGE:
+         1. Save your screenshot as:  project3.jpg
+         2. Upload project3.jpg to GitHub
+         3. Update the title and category below
+    ============================================ -->
+    <div class="portfolio-card">
+      <div class="portfolio-card-bg" style="background:#e4dce8;">
+        <img src="project3.jpg"
+             alt="SEO Campaign"
+             onerror="this.style.display='none'; this.parentElement.innerHTML='📊';"
+             style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+      </div>
+      <div class="portfolio-card-inner">
+        <div class="portfolio-card-title">SEO Campaign</div>
+        <div class="portfolio-card-sub">SEO · Content Strategy</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="portfolio-note reveal">
+    ✦ Portfolio is currently being updated with recent projects. Have a project in mind? <a href="#contact" style="color:var(--black); font-style:normal;">Let's talk →</a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-bg">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-num">04 — Contact</div>
+      <h2 class="section-title">Let's <em>Work</em><br>Together</h2>
+    </div>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-left reveal">
+      <p>Have a project, a question, or just want to explore what's possible? I'm open to WordPress development, Moodle LMS setups, SEO projects, and digital marketing work — locally in Pakistan and internationally.</p>
+      <div class="contact-links">
+        <a href="https://linkedin.com/in/amnaanwar" class="contact-link" target="_blank">
+          <span class="contact-link-icon">💼</span>
+          <div>
+            <div class="contact-link-text">LinkedIn</div>
+            <div class="contact-link-sub">Connect with me</div>
+          </div>
+        </a>
+        <a href="/cdn-cgi/l/email-protection#cba3aea7a7a48baaa6a5aaaaa5bcaab9e5a8a4a6" class="contact-link">
+          <span class="contact-link-icon">✉️</span>
+          <div>
+            <div class="contact-link-text">Email</div>
+            <div class="contact-link-sub"><span class="__cf_email__" data-cfemail="076f626b6b6847666a696666697066752964686a">[email&#160;protected]</span></div>
+          </div>
+        </a>
+        <a href="#" class="contact-link">
+          <span class="contact-link-icon">📍</span>
+          <div>
+            <div class="contact-link-text">Location</div>
+            <div class="contact-link-sub">Multan, Punjab, Pakistan · Remote Available</div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="contact-form reveal">
+      <div class="form-field">
+        <label>Your Name</label>
+        <input type="text" placeholder="Full name">
+      </div>
+      <div class="form-field">
+        <label>Email Address</label>
+        <input type="email" placeholder="your@email.com">
+      </div>
+      <div class="form-field">
+        <label>Service Needed</label>
+        <input type="text" placeholder="WordPress / Moodle / SEO / Marketing">
+      </div>
+      <div class="form-field">
+        <label>Message</label>
+        <textarea rows="4" placeholder="Tell me about your project..."></textarea>
+      </div>
+      <button class="form-submit">Send Message →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">Amna Anwar</div>
+  <div class="footer-copy">© 2025 · All rights reserved</div>
+  <button class="footer-scroll" onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to Top ↑</button>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+  });
+
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    ring.style.left = ringX + 'px';
+    ring.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform = 'translate(-50%, -50%) scale(2)';
+      ring.style.width = '60px'; ring.style.height = '60px';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+      ring.style.width = '36px'; ring.style.height = '36px';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.for
